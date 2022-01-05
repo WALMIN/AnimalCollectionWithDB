@@ -2,6 +2,7 @@
 using AnimalCollectionWithDB.Entities;
 using AnimalCollectionWithDB.Repositories;
 using AnimalCollectionWithDB.DTOs;
+using System.Linq;
 
 namespace AnimalCollectionWithDB.Controllers
 {
@@ -15,7 +16,7 @@ namespace AnimalCollectionWithDB.Controllers
             _repository = repository;
         }
 
-        // GET: /api/[controller]
+        // GET: /api/animaltypes
         [HttpGet("")]
         public IActionResult GetAnimalTypes()
         {
@@ -30,7 +31,7 @@ namespace AnimalCollectionWithDB.Controllers
             return Ok(animalTypes);
         }
 
-        // GET: /api/[controller]/:id
+        // GET: /api/animaltypes/:id
         [HttpGet("{id}")]
         public IActionResult GetAnimalTypeByID(int id)
         {
@@ -38,22 +39,18 @@ namespace AnimalCollectionWithDB.Controllers
             if (animalType == null)
             {
                 return NotFound("Can't find animal type with ID: " + id);
-
-
             }
             AnimalTypeDTO animalTypeDTO = MapAnimalTypeToAnimalTypeDTO(animalType);
-
 
             return Ok(animalTypeDTO);
         }
 
-        // POST: /api/[controller]
+        // POST: /api/animaltypes
         [HttpPost("")]
-        public IActionResult CreateVinyl([FromBody] AnimalType animalType)
+        public IActionResult CreateAnimalType([FromBody] AnimalType animalType)
         {
             AnimalType newAnimalType = _repository.CreateAnimalType(animalType);
             AnimalTypeDTO animalTypeDTO = MapAnimalTypeToAnimalTypeDTO(newAnimalType);
-
 
             return CreatedAtAction(
                 nameof(GetAnimalTypeByID),
@@ -61,7 +58,7 @@ namespace AnimalCollectionWithDB.Controllers
                 animalTypeDTO);
         }
 
-        // PUT: /api/[controller]/:id
+        // PUT: /api/animaltypes/:id
         [HttpPut("{id}")]
         public IActionResult UpdateAnimalType([FromBody] AnimalType animalType, int id)
         {
@@ -71,7 +68,7 @@ namespace AnimalCollectionWithDB.Controllers
             return Ok(animalTypeDTO);
         }
 
-        // PUT: /api/[controller]/:id
+        // PUT: /api/animaltypes/:id
         [HttpDelete("{id}")]
         public IActionResult DeleteAnimalType(int id)
         {

@@ -1,12 +1,14 @@
 ﻿using AnimalCollectionWithDB.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AnimalCollectionWithDB.DTOs
 {
     public class AnimalDTO
     {
         public int ID { get; set; }
-        public string Name { get; set; }
         public AnimalTypeDTO AnimalType { get; set; }
+        public string Name { get; set; }
     }
 
     public static class AnimalDTOExtenstions
@@ -16,15 +18,15 @@ namespace AnimalCollectionWithDB.DTOs
             return new AnimalDTO
             {
                 ID = animal.ID,
-                Name = animal.Name,
-                AnimalType = animal.animalType.MapToAnimalTypeDTO()
+                AnimalType = animal.AnimalType.MapToAnimalTypeDTO(),
+                Name = animal.Name
             };
 
         }
 
         public static List<AnimalDTO> MapToAnimalDTOs(this List<Animal> animals)
         {
-            return animals.Select(animal => animal.MapToAnimalDTO()).OrderBy(animal => animal.AnimalType.ID).ToList();
+            return animals.Select(animal => animal.MapToAnimalDTO()).OrderBy(animal => animal.ID).ToList();
         }
 
     }

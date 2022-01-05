@@ -1,4 +1,7 @@
 ﻿using AnimalCollectionWithDB.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AnimalCollectionWithDB.Repositories
 {
@@ -8,38 +11,31 @@ namespace AnimalCollectionWithDB.Repositories
 
         public AnimalTypeRepository(ApplicationContext context)
         {
-            //_animalTypes = PopulateAnimalTypeData();
             _context = context;
         }
 
-
         public List<AnimalType> GetAll()
         {
-            return _context.AnimalTypes.ToList();
+            return _context.AnimalTypes.Include(animalType => animalType.Animals).ToList();
         }
-
 
         public AnimalType GetByID(int id)
         {
-            AnimalType animalType = _context.AnimalTypes.Find(id);
+            AnimalType animalType = _context.AnimalTypes.Include(animal => animal.Animals).SingleOrDefault(animalType => animalType.ID == id);
             return animalType;
         }
 
-
         public AnimalType CreateAnimalType(AnimalType animalType)
         {
-            AnimalType newAnimalType = animalType;
-
             _context.AnimalTypes.Add(animalType);
             _context.SaveChanges();
 
-            return newAnimalType;
+            return animalType;
         }
-
 
         public AnimalType UpdateAnimalType(AnimalType animalType, int id)
         {
-            AnimalType currentAnimalType = _context.AnimalTypes.FirstOrDefault(item => item.ID == animalType.ID);
+            AnimalType currentAnimalType = _context.AnimalTypes.FirstOrDefault(item => item.ID == id);
             if (currentAnimalType != null)
             {
                 currentAnimalType.Name = animalType.Name;

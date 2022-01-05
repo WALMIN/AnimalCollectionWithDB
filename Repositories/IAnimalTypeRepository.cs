@@ -1,4 +1,5 @@
 ﻿using AnimalCollectionWithDB.Entities;
+using System.Collections.Generic;
 
 namespace AnimalCollectionWithDB.Repositories
 {

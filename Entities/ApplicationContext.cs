@@ -16,7 +16,6 @@ namespace AnimalCollectionWithDB.Entities
                 ServerVersion.AutoDetect(_connectionString));
         }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AnimalType>().HasData(
@@ -44,11 +43,6 @@ namespace AnimalCollectionWithDB.Entities
                 {
                     ID = 5,
                     Name = "Invertebrates"
-                },
-                new AnimalType
-                {
-                    ID = 6,
-                    Name = "Fish"
                 }
             );
 
@@ -56,38 +50,32 @@ namespace AnimalCollectionWithDB.Entities
                 new Animal
                 {
                     ID = 1,
-                    Name = "Chimpanzee",
-                    AnimalTypeID = 1
+                    AnimalTypeID = 1,
+                    Name = "Chimpanzee"
                 },
                 new Animal
                 {
                     ID = 2,
-                    Name = "Bald Eagle",
-                    AnimalTypeID = 2
+                    AnimalTypeID = 2,
+                    Name = "Bald Eagle"
                 },
                 new Animal
                 {
                     ID = 3,
-                    Name = "Green Sea Turtle",
-                    AnimalTypeID = 3
+                    AnimalTypeID = 3,
+                    Name = "Green Sea Turtle"
                 },
                 new Animal
                 {
                     ID = 4,
-                    Name = "Golden Poisib Frog",
-                    AnimalTypeID = 4
+                    AnimalTypeID = 4,
+                    Name = "Golden Poisib Frog"
                 },
                 new Animal
                 {
                     ID = 5,
-                    Name = "Monarch Butterfly",
-                    AnimalTypeID = 5
-                },
-                new Animal
-                {
-                    ID = 6,
-                    Name = "Atlantic Bluefin Tuna",
-                    AnimalTypeID = 6
+                    AnimalTypeID = 5,
+                    Name = "Monarch Butterfly"
                 }
             );
 

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace AnimalCollectionWithDB.Entities
 {
@@ -9,5 +10,7 @@ namespace AnimalCollectionWithDB.Entities
 
         [Required]
         public string Name { get; set; }
+
+        public List<Animal> Animals { get; set; }
     }
 }

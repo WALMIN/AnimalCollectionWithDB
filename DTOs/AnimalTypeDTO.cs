@@ -1,4 +1,6 @@
 ﻿using AnimalCollectionWithDB.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AnimalCollectionWithDB.DTOs
 {
@@ -20,10 +22,9 @@ namespace AnimalCollectionWithDB.DTOs
 
         }
 
-        public static List<AnimalTypeDTO> MapToAnimalTypeDTOs(this List<AnimalType> animalType)
+        public static List<AnimalTypeDTO> MapToAnimalTypeDTOs(this List<AnimalType> animalTypes)
         {
-            return animalType.Select(animalType => animalType.MapToAnimalTypeDTO()).OrderBy(animal => animal.ID).ToList();
-
+            return animalTypes.Select(animalType => animalType.MapToAnimalTypeDTO()).OrderBy(animalType => animalType.ID).ToList();
         }
 
     }

@@ -2,6 +2,7 @@
 using AnimalCollectionWithDB.Entities;
 using AnimalCollectionWithDB.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace AnimalCollectionWithDB.Controllers
 {
@@ -10,23 +11,21 @@ namespace AnimalCollectionWithDB.Controllers
     public class AnimalController : ControllerBase
     {
         private readonly IAnimalRepository _animalRepository;
-        private readonly IAnimalTypeRepository _animalTypeRepository;
-        public AnimalController(IAnimalRepository animalRepository, IAnimalTypeRepository animalTypeRepository)
+        public AnimalController(IAnimalRepository animalRepository)
         {
             _animalRepository = animalRepository;
-            _animalTypeRepository = animalTypeRepository;
         }
 
-        // GET: /api/[controller]
+        // GET: /api/animals
         [HttpGet("")]
         public IActionResult GetAnimals()
         {
-            List<AnimalDTO> animals = _animalRepository.GetAll().ToList().MapToAnimalDTOs();
+            var animals = _animalRepository.GetAll().ToList().MapToAnimalDTOs();
 
             return Ok(animals);
         }
 
-        // GET: /api/[controller]/:id
+        // GET: /api/animals/:id
         [HttpGet("{id}")]
         public IActionResult GetAnimalByID(int id)
         {
@@ -34,7 +33,6 @@ namespace AnimalCollectionWithDB.Controllers
             if (animal == null)
             {
                 return NotFound("Can't find animal with ID: " + id);
-
             }
             AnimalDTO animalDTO = animal.MapToAnimalDTO();
 
@@ -42,11 +40,11 @@ namespace AnimalCollectionWithDB.Controllers
 
         }
 
-        // POST: /api/[controller]
+        // POST: /api/animals
         [HttpPost("")]
-        public IActionResult CreateAnimal([FromBody] Animal animal)
+        public IActionResult CreateAnimal([FromBody] CreateUpdateAnimalDTO createUpdateAnimalDTO)
         {
-            Animal newAnimal = _animalRepository.CreateAnimal(animal);
+            Animal newAnimal = _animalRepository.CreateAnimal(createUpdateAnimalDTO);
             AnimalDTO animalDTO = _animalRepository.GetByID(newAnimal.ID).MapToAnimalDTO();
 
             return CreatedAtAction(
@@ -55,18 +53,17 @@ namespace AnimalCollectionWithDB.Controllers
                 animalDTO);
         }
 
-        // PUT: /api/[controller]/:id
+        // PUT: /api/animals/:id
         [HttpPut("{id}")]
-        public IActionResult UpdateAnimal([FromBody] Animal animal, int id)
+        public IActionResult UpdateAnimal([FromBody] CreateUpdateAnimalDTO createUpdateAnimalDTO, int id)
         {
-            Animal updatedAnimal = _animalRepository.UpdateAnimal(animal, id);
+            Animal updatedAnimal = _animalRepository.UpdateAnimal(createUpdateAnimalDTO, id);
             AnimalDTO animalDTO = _animalRepository.GetByID(id).MapToAnimalDTO();
-
 
             return Ok(animalDTO);
         }
 
-        // PUT: /api/[controller]/:id
+        // PUT: /api/animals/:id
         [HttpDelete("{id}")]
         public IActionResult DeleteAnimal(int id)
         {
